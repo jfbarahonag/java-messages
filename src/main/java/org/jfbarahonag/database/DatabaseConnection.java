@@ -5,18 +5,27 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
+    Connection connection = null;
+
     String engine = "mysql";
     String host = "localhost:3306";
     String database = "messages_app";
     String url = "jdbc:"+engine+"://"+host+"/"+database;
+    String user = "admin";
+    String password = ".admin123";
+
+    /**
+     * Singleton of the database
+     * @return connection
+     */
     public Connection getConnection() {
-        try(Connection connection = DriverManager.getConnection(url,"admin",".admin123")){
-            if (connection == null) throw new RuntimeException("Connection not established");
-            System.out.println("Connection established");
-            return connection;
-        } catch (SQLException e) {
-            System.out.println("Error getting connection from " + url);
-            throw new RuntimeException(e);
+        if (connection == null) {
+            try {
+                connection = DriverManager.getConnection(url, user, password);
+            } catch (SQLException e) {
+                throw new RuntimeException("Connection with database failed");
+            }
         }
+        return connection;
     }
 }
