@@ -8,9 +8,8 @@ public class Message {
 
     public Message() {}
 
-    public Message(String author, String date, String message) {
+    public Message(String author, String message) {
         this.author = author;
-        this.date = date;
         this.message = message;
     }
 

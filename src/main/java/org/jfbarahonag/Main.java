@@ -37,7 +37,7 @@ public class Main {
             option = MenuOption.fromInteger(scanner.nextInt());
 
             switch (option) {
-                case POST -> ms.post(new Message());
+                case POST -> ms.create();
                 case GET_ALL -> ms.getAll();
                 case EDIT -> ms.update(0, new Message());
                 case REMOVE -> ms.delete(0);
