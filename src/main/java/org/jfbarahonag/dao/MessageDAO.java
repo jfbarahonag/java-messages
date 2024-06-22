@@ -39,6 +39,25 @@ public class MessageDAO {
         }
     }
 
+    public Message getMessageById(int id) {
+        String query = "Select id_message, message, author, date FROM Messages WHERE id_message = ?";
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(query);
+        ) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (!rs.next()) return null;
+
+            return getMessage(rs);
+
+        } catch (SQLException e) {
+            System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + " fail");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public List<Message> getAllMessages() {
         String query = "SELECT id_message, message, author, date FROM messages";
         List<Message> messages = new ArrayList<>();
@@ -74,7 +93,22 @@ public class MessageDAO {
         }
     }
 
-    public void updateMessage(int id, Message newMessage) {
+    public boolean updateMessage(int id, Message newMessage) {
+        String query = "UPDATE Messages SET message = ?, author = ?, date = NOW() WHERE id_message = ?";
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(query)
+        ) {
+            ps.setString(1, newMessage.getMessage());
+            ps.setString(2, newMessage.getAuthor());
+            ps.setInt(3, id);
 
+            int rows = ps.executeUpdate();
+            return rows == 1;
+
+        } catch (SQLException e) {
+            System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + " fail");
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }
