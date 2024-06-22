@@ -1,11 +1,7 @@
 package org.jfbarahonag;
 
-import org.jfbarahonag.dao.MessageDAO;
-import org.jfbarahonag.database.DatabaseConnection;
-import org.jfbarahonag.model.Message;
 import org.jfbarahonag.service.MessageService;
 
-import java.sql.Connection;
 import java.util.Scanner;
 
 public class Main {
