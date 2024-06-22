@@ -39,8 +39,8 @@ public class Main {
             switch (option) {
                 case POST -> ms.create();
                 case GET_ALL -> ms.getAll();
-                case EDIT -> ms.update(0, new Message());
-                case REMOVE -> ms.delete(0);
+                case EDIT -> ms.update();
+                case REMOVE -> ms.delete();
                 case null -> {
                     System.out.println("Invalid");
                 }
