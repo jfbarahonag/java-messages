@@ -44,4 +44,14 @@ public class Message {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "author='" + author + '\'' +
+                ", id_message=" + id_message +
+                ", message='" + message + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }
