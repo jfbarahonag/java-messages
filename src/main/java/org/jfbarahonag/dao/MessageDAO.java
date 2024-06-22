@@ -3,17 +3,28 @@ package org.jfbarahonag.dao;
 import org.jfbarahonag.database.DatabaseConnection;
 import org.jfbarahonag.model.Message;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageDAO {
 
-    DatabaseConnection dbConn = new DatabaseConnection();
+    private Connection getConnection() throws SQLException {
+        return DatabaseConnection.getInstance();
+    }
+
+    private static Message getMessage(ResultSet rs) throws SQLException {
+        Message message = new Message();
+        message.setId_message(rs.getInt("id_message"));
+        message.setAuthor(rs.getString("author"));
+        message.setMessage(rs.getString("message"));
+        message.setDate(rs.getString("date"));
+        return message;
+    }
 
     public void insertMessage(Message message) {
         String sqlQuery = "INSERT INTO messages (message, author) VALUES (?,?)";
-        try(Connection c = dbConn.getConnection();
+        try(Connection c = getConnection();
             PreparedStatement ps = c.prepareStatement(sqlQuery);
         ) {
             ps.setString(1, message.getMessage());
@@ -24,11 +35,27 @@ public class MessageDAO {
             }
         } catch (SQLException e) {
             System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + " fail");
+            System.out.println(e.getMessage());
         }
     }
 
-    public void getAllMessages() {
-
+    public List<Message> getAllMessages() {
+        String query = "SELECT id_message, message, author, date FROM messages";
+        List<Message> messages = new ArrayList<>();
+        try(Connection c = getConnection();
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(query);
+        ) {
+            while (rs.next()) {
+                Message message = getMessage(rs);
+                messages.add(message);
+            }
+            return messages;
+        } catch (SQLException e) {
+            System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + " fail");
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     public void deleteMessage(int id) {

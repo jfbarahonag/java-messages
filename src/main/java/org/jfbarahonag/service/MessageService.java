@@ -3,6 +3,7 @@ package org.jfbarahonag.service;
 import org.jfbarahonag.dao.MessageDAO;
 import org.jfbarahonag.model.Message;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MessageService {
@@ -26,7 +27,8 @@ public class MessageService {
     }
 
     public void getAll() {
-
+        List<Message> messages = dao.getAllMessages();
+        messages.forEach(System.out::println);
     }
 
     public void delete(int id) {
