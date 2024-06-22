@@ -47,15 +47,6 @@ public class Main {
                 default -> {}
             }
         } while (option != MenuOption.EXIT);
-
-
-        DatabaseConnection dbConnection = new DatabaseConnection();
-
-        try (Connection conn = dbConnection.getConnection()) {
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
     }
 
     public static void showMenu() {
