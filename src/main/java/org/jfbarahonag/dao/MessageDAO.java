@@ -22,7 +22,7 @@ public class MessageDAO {
         return message;
     }
 
-    public void insertMessage(Message message) {
+    public boolean insertMessage(Message message) {
         String sqlQuery = "INSERT INTO messages (message, author) VALUES (?,?)";
         try(Connection c = getConnection();
             PreparedStatement ps = c.prepareStatement(sqlQuery);
@@ -30,12 +30,11 @@ public class MessageDAO {
             ps.setString(1, message.getMessage());
             ps.setString(2, message.getAuthor());
             int result = ps.executeUpdate();
-            if (result == 1) {
-                System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + " success");
-            }
+            return result == 1;
         } catch (SQLException e) {
             System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + " fail");
             System.out.println(e.getMessage());
+            return false;
         }
     }
 

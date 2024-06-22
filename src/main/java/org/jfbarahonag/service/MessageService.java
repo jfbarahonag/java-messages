@@ -24,7 +24,10 @@ public class MessageService {
         inputAuthor = sc.nextLine().trim();
 
         Message newMsg = new Message(inputAuthor, inputMessage);
-        dao.insertMessage(newMsg);
+
+        boolean done = dao.insertMessage(newMsg);
+        messageToUser = done ? "Message created" : "Message could not be created";
+        System.out.println(messageToUser);
     }
 
     public void getAll() {
