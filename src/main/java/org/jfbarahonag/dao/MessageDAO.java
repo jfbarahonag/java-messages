@@ -58,8 +58,20 @@ public class MessageDAO {
         }
     }
 
-    public void deleteMessage(int id) {
+    public boolean deleteMessage(int id) {
+        String query = "DELETE FROM Messages WHERE id_message = ?";
+        try(Connection c = getConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+        ) {
+            ps.setInt(1, id);
+            int rows = ps.executeUpdate();
+            return rows == 1;
 
+        } catch (SQLException e) {
+            System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + " fail");
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public void updateMessage(int id, Message newMessage) {
